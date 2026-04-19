@@ -272,7 +272,14 @@ GRANT SHOW DATABASES ON *.* TO 'traccar_monitor'@'127.0.0.1';
 FLUSH PRIVILEGES;
 ```
 
-**8.2) Implantar o plugin no agente Linux**
+**8.2) Dependências e Implantação do plugin (Linux)**
+Para o script python do CheckMK comunicar-se com o MySQL, instale a biblioteca do conector:
+```bash
+apt-get update && apt-get install -y python3-mysql.connector
+# ou caso o seu linux use apenas pip: pip3 install mysql-connector-python
+```
+
+E então copie o script para o diretório de plugins locais do agente:
 ```bash
 cp /caminho/para/03_checkmk_traccar_partitions.py /usr/lib/check_mk_agent/local/traccar_partitions
 chmod +x /usr/lib/check_mk_agent/local/traccar_partitions
