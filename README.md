@@ -418,6 +418,14 @@ grep -i 'error\|exception\|outofmemory' /opt/traccar/logs/tracker-server.log | t
 ### Event Scheduler para após restart do MySQL
 Garanta que salvou no `/etc/mysql/mysql.conf.d/mysqld.cnf` a flag `event_scheduler=ON` dentro da sessão `[mysqld]`.
 
+### Erro 1298 (HY000): Unknown or incorrect time zone: 'America/Sao_Paulo'
+Esse erro ocorre porque as tabelas de fuso horário do MySQL não estão populadas na sua instalação (o MySQL não reconhece os nomes dos fusos).
+Para corrigir isso em ambientes Linux, importe os fusos horários do sistema operacional para o seu banco através do terminal:
+```bash
+mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root -p mysql
+```
+Após rodar o comando (ele pedirá a senha do root do MySQL), o banco passará a reconhecer o fuso horário e o seu script rodará perfeitamente.
+
 ### Erro "Table has no partition for value"
 A partição extrema de segurança (`p_future`) não foi recriada e a tabela chegou em datas futuras vazias de escopo.
 ```sql
