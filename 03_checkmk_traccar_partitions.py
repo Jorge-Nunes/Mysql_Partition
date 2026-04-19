@@ -32,6 +32,18 @@ except ImportError:
     sys.exit(0)
 
 # ── Configuração de conexão ──────────────────────────────────────────────────
+env_file = "/etc/check_mk/traccar_db.env"
+if os.path.exists(env_file):
+    with open(env_file, "r") as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith("#"):
+                if line.startswith("export "):
+                    line = line[7:]
+                if "=" in line:
+                    k, v = line.split("=", 1)
+                    os.environ[k.strip()] = v.strip().strip("'\"")
+
 DB_HOST = os.environ.get("TRACCAR_DB_HOST", "127.0.0.1")
 DB_PORT = int(os.environ.get("TRACCAR_DB_PORT", 3306))
 DB_USER = os.environ.get("TRACCAR_DB_USER", "traccar")
