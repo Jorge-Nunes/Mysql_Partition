@@ -266,9 +266,9 @@ Você deverá obter logs visualmente similares a:
 
 **8.1) Criar usuário de leitura MySQL**
 ```sql
-CREATE USER 'traccar_monitor'@'127.0.0.1' IDENTIFIED BY 'SenhaForte123!';
-GRANT SELECT ON information_schema.* TO 'traccar_monitor'@'127.0.0.1';
-GRANT SHOW DATABASES ON *.* TO 'traccar_monitor'@'127.0.0.1';
+CREATE USER 'traccar_monitor'@'localhost' IDENTIFIED BY 'SenhaForte123!';
+GRANT SELECT, EVENT, EXECUTE ON traccar.* TO 'traccar_monitor'@'localhost';
+GRANT SHOW DATABASES ON *.* TO 'traccar_monitor'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
@@ -291,7 +291,7 @@ Como apenas digitar `export` não salva permanentemente para o agente do CheckMK
 
 ```bash
 cat > /etc/check_mk/traccar_db.env << 'EOF'
-export TRACCAR_DB_HOST=127.0.0.1
+export TRACCAR_DB_HOST=localhost
 export TRACCAR_DB_USER=traccar_monitor
 export TRACCAR_DB_PASS=SenhaForte123!
 export TRACCAR_DB_NAME=traccar
