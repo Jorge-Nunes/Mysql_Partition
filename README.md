@@ -278,12 +278,20 @@ cp /caminho/para/03_checkmk_traccar_partitions.py /usr/lib/check_mk_agent/local/
 chmod +x /usr/lib/check_mk_agent/local/traccar_partitions
 ```
 
-**8.3) Criar varíaveis de ambiente c/ credenciais**
+**8.3) Configurar credenciais persistentes para o agente**
+
+Como apenas digitar `export` não salva permanentemente para o agente do CheckMK, grave as variáveis num arquivo de ambiente e vincule ao agente:
+
 ```bash
+cat > /etc/check_mk/traccar_db.env << 'EOF'
 export TRACCAR_DB_HOST=127.0.0.1
 export TRACCAR_DB_USER=traccar_monitor
 export TRACCAR_DB_PASS=SenhaForte123!
 export TRACCAR_DB_NAME=traccar
+EOF
+
+echo "source /etc/check_mk/traccar_db.env" >> /etc/check_mk/agent_environ
+source /etc/check_mk/traccar_db.env
 ```
 
 Teste o script digitando `/usr/lib/check_mk_agent/local/traccar_partitions`. Deve sair `0 Traccar_EventScheduler - OK...` e status verde.
